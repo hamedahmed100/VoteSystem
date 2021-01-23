@@ -1,0 +1,99 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model VoteSystem.ModelView.VotePercentage
+<div>
+    <h1>Admin Page</h1>
+</div>
+<form method="post">
+    <div id="rcorners2">
+        <h2>Questions Section</h2>
+        <div class="form-group">
+            <label for="Question">Question?</label>
+            <input type="text" required name="Question" class="form-control" id="Question" placeholder="Enter The Question">
+        </div>
+
+        <div class="form-group">
+            <button type="button" id="addAnswer" class="btn btn-success">Add Answer</button>
+
+        </div>
+
+        <div id="answers">
+            <div class="form-group">
+                <label for="Answer-1">Answer-1</label>
+                <input type="text" required name="Answers" class="form-control" id="Answer"
+                       placeholder="Enter The Answer">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+<div>
+
+    <div id="rcorners2">
+        <h2>Result Section</h2>
+
+
+        <table class="table table-bordered ">
+
+            <tbody>
+                @{
+                    for (int i=0, j = ((Model.PageNo*3)-3); i < Model.Questions.Count; i++,j++)
+                    {
+
+                        <tr>
+                            <td colspan="5">@(j+1)-@Model.Questions[i].Content</td>
+                        </tr>
+
+                        foreach (var answer in Model.AnswersPercentages)
+                        {
+                            if (answer.Question_Id == Model.Questions[i].Id)
+                            {
+                                <tr>
+                                    <td colspan="4">@answer.TheAnswer</td>
+                                    <td colspan="2">@String.Format("{0:0.0}", answer.votePercentage)%</td>
+                                </tr>
+                            }
+
+                        }
+
+                    }
+
+
+
+                }
+
+
+            </tbody>
+        </table>
+        @Html.PagedListPager(Model.Questions, page => Url.Action("Admin", new { page }))
+        <!-- Pagination
+            pagination
+    <nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item disabled">
+                <span class="page-link">Previous</span>
+            </li>
+            <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item ">
+                <a class="page-link" href="#">2</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">3</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>-->
+    </div>
+</div>
+
+@section JavaScript{
+
+    <script src="~/Scripts/site.js"></script>
+}
+
+

@@ -1,0 +1,83 @@
+﻿@model VoteSystem.ModelView.DisplayQuestion
+
+
+<div>
+    <h1>User Page</h1>
+
+</div>
+
+
+@if (ViewBag.msg == true)
+{
+    <div id="message" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>You've Voted Successfully.</strong>
+        <button type="button" class="close" onclick="$('#message').remove()" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+else if (ViewBag.msg == false)
+{
+    <div id="message" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error in Voting the Question!!</strong>
+        <button type="button" class="close" onclick="$('#message').remove()" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<div id="rcorners2">
+    @{
+        if (Model.Question != null)
+        {
+            <form method="post">
+                <div class="form-group">
+                    <h3>@Model.Question.Content</h3>
+                    <input type="hidden" value="@Model.Question.Id" name="QuestionId" />
+                </div>
+                <div id="answers">
+                    <div class="form-group">
+
+                        <h2>Answers:</h2>
+
+                    </div>
+                    @{
+                        int i = 0;
+                        foreach (var Answer in Model.Answers)
+                        {
+                            i = i + 1;
+
+                            <div class="form-check">
+
+                                <input class="form-check-input" value="@Answer.Id" required type="radio" name="AnswerId"
+                                       id="RadioButton-@i">
+                                <label class="form-check-label" for="RadioButton-@i">
+                                    @Answer.TheAnswer
+                                </label>
+                            </div>
+
+                        }
+                    }
+                </div>
+
+                <div style="padding: 20px;">
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        }
+        else
+        {
+            <form method="get" action="User/DeleteCookies">
+
+                <h1> You've Successfully Voted  All the Questions.</h1>
+
+                <h5>Do you want to reset your vote ?</h5>
+                <input type="submit" class="btn btn-danger" value="Reset">
+            </form>
+        }
+
+    }
+</div>
+
+
